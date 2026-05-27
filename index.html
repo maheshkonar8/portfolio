@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahesh Konar — Backend &amp; Systems Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eef0ed;
+    --paper-2:#e6e8e4;
+    --card:#f7f8f6;
+    --line:#b9c0bd;
+    --line-2:#cfd4d1;
+    --ink:#1c2421;
+    --ink-2:#5a625e;
+    --ink-3:#8f968f;
+    --blue:#1f5fa8;
+    --red:#b8442e;
+    --mono:'IBM Plex Mono',monospace;
+    --sans:'IBM Plex Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  /* blueprint grid */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(var(--line-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-2) 1px,transparent 1px);
+    background-size:64px 64px;opacity:0.45;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(var(--line-2) 0.5px,transparent 0.5px),
+      linear-gradient(90deg,var(--line-2) 0.5px,transparent 0.5px);
+    background-size:16px 16px;opacity:0.25;
+  }
+  ::selection{background:var(--blue);color:#fff}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 40px;position:relative;z-index:2}
+
+  /* registration marks */
+  .reg{position:fixed;width:22px;height:22px;z-index:3;pointer-events:none}
+  .reg::before,.reg::after{content:"";position:absolute;background:var(--ink-3)}
+  .reg::before{width:22px;height:1px;top:10px}
+  .reg::after{height:22px;width:1px;left:10px}
+  .reg.tl{top:18px;left:18px}.reg.tr{top:18px;right:18px}
+  .reg.bl{bottom:18px;left:18px}.reg.br{bottom:18px;right:18px}
+  @media(max-width:680px){.reg{display:none}}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(238,240,237,0.92);
+    backdrop-filter:blur(6px);border-bottom:1.5px solid var(--ink)}
+  .nav-in{max-width:1140px;margin:0 auto;padding:14px 40px;display:flex;
+    justify-content:space-between;align-items:center}
+  .logo{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:0.06em}
+  .logo span{color:var(--blue)}
+  .nav-links{display:flex;gap:4px;font-family:var(--mono);font-size:12px}
+  .nav-links a{padding:5px 11px;color:var(--ink-2);border:1px solid transparent;transition:.18s}
+  .nav-links a:hover{border-color:var(--line);color:var(--blue)}
+  @media(max-width:680px){.nav-links{display:none}}
+
+  /* title block */
+  header{padding:150px 0 80px}
+  .tblock{border:1.5px solid var(--ink);background:var(--card);position:relative}
+  .tblock-grid{display:grid;grid-template-columns:1fr 270px}
+  @media(max-width:760px){.tblock-grid{grid-template-columns:1fr}}
+  .tb-main{padding:46px 44px}
+  .tb-side{border-left:1.5px solid var(--ink);display:flex;flex-direction:column}
+  @media(max-width:760px){.tb-side{border-left:none;border-top:1.5px solid var(--ink)}}
+  .drw-no{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:0.1em;margin-bottom:20px}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(2.4rem,5.4vw,3.9rem);
+    line-height:1.04;letter-spacing:-0.02em;margin-bottom:22px}
+  h1 .u{color:var(--blue);position:relative}
+  .lede{font-size:1.05rem;color:var(--ink-2);max-width:560px}
+  .lede b{color:var(--ink);font-weight:600}
+  .tb-cell{padding:16px 20px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11.5px}
+  .tb-cell:last-child{border-bottom:none;flex:1;display:flex;align-items:flex-end}
+  .tb-cell .lab{color:var(--ink-3);display:block;margin-bottom:3px}
+  .tb-cell .val{color:var(--ink);font-size:13px}
+  .tb-cell .val.b{color:var(--blue)}
+  .hero-cta{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);width:fit-content}
+  .hero-cta a{font-family:var(--mono);font-size:12px;padding:12px 20px}
+  .hero-cta a:first-child{background:var(--blue);color:#fff}
+  .hero-cta a:last-child{border-left:1.5px solid var(--ink)}
+  .hero-cta a:last-child:hover{background:var(--paper-2)}
+
+  /* metric row */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--ink);
+    border-top:none;background:var(--card)}
+  .metric{padding:20px;border-right:1px solid var(--line);position:relative}
+  .metric:last-child{border-right:none}
+  .metric .v{font-family:var(--mono);font-size:1.7rem;font-weight:600;color:var(--ink)}
+  .metric .l{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:4px;letter-spacing:0.04em}
+  .metric .tick{position:absolute;top:7px;right:9px;font-family:var(--mono);font-size:9px;color:var(--blue)}
+  @media(max-width:680px){.metrics{grid-template-columns:repeat(2,1fr)}
+    .metric:nth-child(2){border-right:none}}
+
+  section{padding:74px 0}
+  .shead{display:flex;align-items:center;gap:14px;margin-bottom:36px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:12px}
+  .shead .no{font-family:var(--mono);font-size:12px;background:var(--ink);color:var(--paper);
+    padding:4px 9px}
+  .shead h2{font-size:1.5rem;font-weight:700;letter-spacing:-0.01em}
+  .shead .meta{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+
+  .about-g{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border:1.5px solid var(--ink);background:var(--card)}
+  @media(max-width:760px){.about-g{grid-template-columns:1fr}}
+  .about-txt{padding:34px 36px}
+  .about-txt p{color:var(--ink-2);margin-bottom:15px}
+  .about-txt p:last-child{margin-bottom:0}
+  .about-txt b{color:var(--ink);font-weight:600}
+  .about-txt .hl{background:linear-gradient(transparent 62%,rgba(31,95,168,0.18) 62%);color:var(--ink);font-weight:600}
+  .about-spec{border-left:1.5px solid var(--ink);padding:30px 28px;font-family:var(--mono);font-size:12px}
+  @media(max-width:760px){.about-spec{border-left:none;border-top:1.5px solid var(--ink)}}
+  .about-spec .sl{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .about-spec .sl:last-child{border:none}
+  .about-spec .sk{color:var(--ink-3)}
+  .about-spec .sv{color:var(--ink)}
+
+  /* systems = schematic cards */
+  .sys-list{display:grid;gap:18px}
+  .scard{border:1.5px solid var(--ink);background:var(--card);position:relative}
+  .scard-hd{display:flex;align-items:center;border-bottom:1px solid var(--line);
+    background:var(--paper-2)}
+  .scard-no{font-family:var(--mono);font-size:12px;font-weight:600;padding:11px 16px;
+    border-right:1px solid var(--line);color:var(--blue)}
+  .scard-ti{font-weight:600;font-size:1.08rem;padding:11px 16px;flex:1}
+  .scard-tag{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:11px 16px;
+    border-left:1px solid var(--line)}
+  .scard-bd{padding:22px 24px}
+  .scard-bd p{color:var(--ink-2);font-size:0.97rem;max-width:660px}
+  .scard-bd p b{color:var(--ink);font-weight:600}
+  /* schematic flow */
+  .flow{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-top:20px;
+    font-family:var(--mono);font-size:10.5px}
+  .node{border:1px solid var(--ink);padding:6px 11px;background:var(--paper);white-space:nowrap}
+  .node.hot{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .link{width:26px;height:1px;background:var(--ink);position:relative}
+  .link::after{content:"";position:absolute;right:0;top:-2.5px;
+    border-left:5px solid var(--ink);border-top:3px solid transparent;border-bottom:3px solid transparent}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+  .chip{font-family:var(--mono);font-size:10.5px;border:1px solid var(--line);
+    padding:4px 9px;color:var(--ink-2);background:var(--paper)}
+  .corner{position:absolute;width:7px;height:7px;border:1.5px solid var(--blue)}
+  .corner.a{top:-1.5px;left:-1.5px;border-right:0;border-bottom:0}
+  .corner.b{top:-1.5px;right:-1.5px;border-left:0;border-bottom:0}
+  .corner.c{bottom:-1.5px;left:-1.5px;border-right:0;border-top:0}
+  .corner.d{bottom:-1.5px;right:-1.5px;border-left:0;border-top:0}
+
+  /* experience */
+  .xp{border:1.5px solid var(--ink);background:var(--card)}
+  .job{display:grid;grid-template-columns:210px 1fr;border-bottom:1px solid var(--line)}
+  .job:last-child{border-bottom:none}
+  @media(max-width:680px){.job{grid-template-columns:1fr}}
+  .job-l{padding:26px 22px;border-right:1px solid var(--line);font-family:var(--mono);font-size:11px}
+  @media(max-width:680px){.job-l{border-right:none;border-bottom:1px solid var(--line)}}
+  .job-l .when{color:var(--blue);margin-bottom:8px}
+  .job-l .co{color:var(--ink);font-size:12px;font-weight:600}
+  .job-l .loc{color:var(--ink-3);margin-top:3px}
+  .job-r{padding:26px 28px}
+  .job-r h3{font-size:1.12rem;font-weight:700;margin-bottom:14px}
+  .job-r ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .job-r li{color:var(--ink-2);font-size:0.95rem;padding-left:22px;position:relative}
+  .job-r li::before{content:"+";position:absolute;left:0;color:var(--blue);font-family:var(--mono);font-weight:600}
+  .job-r li b{color:var(--ink);font-weight:600}
+
+  .stack{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--ink);background:var(--card)}
+  @media(max-width:760px){.stack{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:440px){.stack{grid-template-columns:1fr}}
+  .stk{padding:22px 20px;border-right:1px solid var(--line)}
+  .stk:last-child{border-right:none}
+  .stk h4{font-family:var(--mono);font-size:10.5px;color:var(--blue);letter-spacing:0.06em;
+    margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .stk ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .stk li{font-size:0.92rem;color:var(--ink-2)}
+
+  .contact{border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+    padding:50px 44px;text-align:center}
+  .contact h3{font-size:clamp(1.5rem,3.4vw,2.3rem);font-weight:700;margin-bottom:12px}
+  .contact h3 span{color:#6ba3de}
+  .contact p{color:#9ba29e;max-width:430px;margin:0 auto 26px;font-size:0.97rem}
+  .clinks{display:flex;gap:0;justify-content:center;border:1.5px solid var(--paper);width:fit-content;margin:0 auto;flex-wrap:wrap}
+  .clinks a{font-family:var(--mono);font-size:12px;padding:12px 20px;border-right:1.5px solid var(--paper)}
+  .clinks a:last-child{border-right:none}
+  .clinks a:first-child{background:var(--blue);color:#fff}
+  .clinks a:hover{background:rgba(255,255,255,0.08)}
+  .clinks a:first-child:hover{background:#2d6fb8}
+
+  footer{padding:30px 0 70px}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-3);
+    border-top:1.5px solid var(--ink);padding-top:16px}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:.6s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="reg tl"></div><div class="reg tr"></div><div class="reg bl"></div><div class="reg br"></div>
+
+<nav><div class="nav-in">
+  <div class="logo">M.KONAR<span>/</span>SYS-ENGINEER</div>
+  <div class="nav-links">
+    <a href="#about">00·ABOUT</a><a href="#systems">01·SYSTEMS</a>
+    <a href="#work">02·EXP</a><a href="#stack">03·STACK</a><a href="#contact">04·CONTACT</a>
+  </div>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="tblock reveal">
+    <div class="tblock-grid">
+      <div class="tb-main">
+        <div class="drw-no">DRAWING NO. MK-2026 · BACKEND &amp; PRODUCT ENGINEER</div>
+        <h1>I design <span class="u">systems</span><br>that scale products.</h1>
+        <p class="lede">Backend and systems engineer with 2 years building production
+          platforms. I own <b>API design, architecture, and infrastructure</b> — and approach
+          every decision like the <b>business owner</b> I also am.</p>
+        <div class="hero-cta">
+          <a href="#systems">VIEW SYSTEMS →</a>
+          <a href="#contact">CONTACT</a>
+        </div>
+      </div>
+      <div class="tb-side">
+        <div class="tb-cell"><span class="lab">ENGINEER</span><span class="val">Mahesh Konar</span></div>
+        <div class="tb-cell"><span class="lab">DISCIPLINE</span><span class="val b">Backend / Systems</span></div>
+        <div class="tb-cell"><span class="lab">LOCATION</span><span class="val">Mumbai, India</span></div>
+        <div class="tb-cell"><span class="lab">REVISION</span><span class="val">Open to roles ●</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="metrics reveal">
+    <div class="metric"><span class="tick">M-01</span><div class="v">30K+</div><div class="l">USERS SERVED</div></div>
+    <div class="metric"><span class="tick">M-02</span><div class="v">21K</div><div class="l">MONTHLY ACTIVES</div></div>
+    <div class="metric"><span class="tick">M-03</span><div class="v">11K+</div><div class="l">REVIEWS PIPELINED</div></div>
+    <div class="metric"><span class="tick">M-04</span><div class="v">3</div><div class="l">CLIENT PLATFORMS</div></div>
+  </div>
+</div></header>
+
+<section id="about"><div class="wrap">
+  <div class="shead reveal"><span class="no">00</span><h2>About</h2><span class="meta">PROFILE</span></div>
+  <div class="about-g reveal">
+    <div class="about-txt">
+      <p>I'm a backend engineer focused on <b>system design, API architecture, and scalable
+        infrastructure</b>. Currently leading backend at GlamGuider (Admobs), a beauty-tech
+        platform serving 30K+ users across web, Android, and iOS.</p>
+      <p>My strength isn't writing the most lines of code — it's <span class="hl">thinking in
+        systems</span>. Deciding how a loyalty ledger should be structured for multi-country
+        rules, how to split a heavy data pipeline from a fast-serving API, where the bottlenecks
+        will appear before they do. I own API contracts, infrastructure, and cross-team execution.</p>
+      <p>I also run my own business — so cost-awareness and <b>product thinking</b> sit inside
+        every technical call I make. I build for the outcome, not just the spec.</p>
+    </div>
+    <div class="about-spec">
+      <div class="sl"><span class="sk">focus</span><span class="sv">Backend / Systems</span></div>
+      <div class="sl"><span class="sk">experience</span><span class="sv">2 years</span></div>
+      <div class="sl"><span class="sk">education</span><span class="sv">M.Sc. Comp Sci</span></div>
+      <div class="sl"><span class="sk">core</span><span class="sv">Node · Mongo</span></div>
+      <div class="sl"><span class="sk">infra</span><span class="sv">AWS · Nginx</span></div>
+      <div class="sl"><span class="sk">status</span><span class="sv">● available</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="systems"><div class="wrap">
+  <div class="shead reveal"><span class="no">01</span><h2>Selected Systems</h2><span class="meta">06 ENTRIES</span></div>
+  <div class="sys-list">
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/01</span>
+        <span class="scard-ti">Loyalty Wallet &amp; Reward Engine</span>
+        <span class="scard-tag">GLAMGUIDER</span></div>
+      <div class="scard-bd">
+        <p>A reward system built on a <b>transaction ledger</b> with country-specific rules, so
+          every credit and debit is auditable and reward computation stays correct as the
+          platform expands. Designed for <b>consistency over convenience</b> — the ledger is the
+          source of truth, balances are derived.</p>
+        <div class="flow">
+          <span class="node">event</span><span class="link"></span>
+          <span class="node">rule engine</span><span class="link"></span>
+          <span class="node hot">ledger</span><span class="link"></span>
+          <span class="node">derived balance</span><span class="link"></span>
+          <span class="node">wallet API</span>
+        </div>
+        <div class="chips"><span class="chip">Node.js</span><span class="chip">MongoDB</span>
+          <span class="chip">Ledger design</span><span class="chip">Multi-region rules</span></div>
+      </div>
+    </div>
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/02</span>
+        <span class="scard-ti">Product Comparison &amp; Intelligence System</span>
+        <span class="scard-tag">IN PROGRESS</span></div>
+      <div class="scard-bd">
+        <p>A queue-driven pipeline for <b>ingredient-level product intelligence</b> — comparing
+          skincare products by safety, skin-type suitability, and multi-platform pricing.
+          Architected to <b>separate heavy offline ingestion from fast online serving</b>. I
+          authored the HLD and pitched the product roadmap behind it.</p>
+        <div class="flow">
+          <span class="node">collect</span><span class="link"></span>
+          <span class="node">normalize</span><span class="link"></span>
+          <span class="node">enrich</span><span class="link"></span>
+          <span class="node hot">intelligence DB</span><span class="link"></span>
+          <span class="node">API</span><span class="link"></span>
+          <span class="node">compare UI</span>
+        </div>
+        <div class="chips"><span class="chip">System design (HLD)</span><span class="chip">Queue pipeline</span>
+          <span class="chip">Data normalization</span><span class="chip">Product strategy</span></div>
+      </div>
+    </div>
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/03</span>
+        <span class="scard-ti">Affiliate Tracking &amp; Attribution</span>
+        <span class="scard-tag">GLAMGUIDER</span></div>
+      <div class="scard-bd">
+        <p>An affiliate tracking and <b>conversion attribution system</b> with an event pipeline
+          feeding behavioral analytics. Makes monetization measurable — which source drove which
+          conversion — so product decisions run on data, not guesswork.</p>
+        <div class="flow">
+          <span class="node">click / event</span><span class="link"></span>
+          <span class="node">tracking pipeline</span><span class="link"></span>
+          <span class="node hot">attribution</span><span class="link"></span>
+          <span class="node">analytics</span>
+        </div>
+        <div class="chips"><span class="chip">Event pipeline</span><span class="chip">Attribution logic</span>
+          <span class="chip">Meta Conversion API</span><span class="chip">AppTrove</span></div>
+      </div>
+    </div>
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/04</span>
+        <span class="scard-ti">Infrastructure Migration</span>
+        <span class="scard-tag">GLAMGUIDER</span></div>
+      <div class="scard-bd">
+        <p>Led the migration from a single-server setup to a <b>scalable stack</b> — VPS hosting,
+          MongoDB Atlas, and AWS S3 + CloudFront CDN. Improved reliability and <b>cut media
+          latency</b> by serving assets from the edge instead of the origin.</p>
+        <div class="flow">
+          <span class="node">single server</span><span class="link"></span>
+          <span class="node hot">VPS + Atlas</span><span class="link"></span>
+          <span class="node">S3 / CloudFront edge</span>
+        </div>
+        <div class="chips"><span class="chip">AWS S3</span><span class="chip">CloudFront</span>
+          <span class="chip">MongoDB Atlas</span><span class="chip">Nginx</span></div>
+      </div>
+    </div>
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/05</span>
+        <span class="scard-ti">Admin-Driven Content System</span>
+        <span class="scard-tag">GLAMGUIDER</span></div>
+      <div class="scard-bd">
+        <p>A backend-controlled content and <b>drag-and-drop banner system</b> that lets
+          non-engineers update UI with <b>zero code deployments</b> — removing engineering from
+          the loop for routine content changes and speeding up publishing.</p>
+        <div class="chips"><span class="chip">Dynamic config</span><span class="chip">Backend-driven UI</span>
+          <span class="chip">Node.js</span><span class="chip">MongoDB</span></div>
+      </div>
+    </div>
+
+    <div class="scard reveal">
+      <span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+      <div class="scard-hd"><span class="scard-no">/06</span>
+        <span class="scard-ti">RemindFlow — SaaS</span>
+        <span class="scard-tag">INDEPENDENT</span></div>
+      <div class="scard-bd">
+        <p>A reminder and scheduling <b>SaaS product built end-to-end</b> — system design,
+          backend, integrations, and deployment. A 0-to-1 project owned solo, from architecture
+          to a running product.</p>
+        <div class="chips"><span class="chip">Full system design</span><span class="chip">Node.js</span>
+          <span class="chip">0 → 1 product</span></div>
+      </div>
+    </div>
+
+  </div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <div class="shead reveal"><span class="no">02</span><h2>Experience</h2><span class="meta">LOG</span></div>
+  <div class="xp reveal">
+    <div class="job">
+      <div class="job-l">
+        <div class="when">FEB 2025 — PRESENT</div>
+        <div class="co">GlamGuider (Admobs)</div>
+        <div class="loc">Mumbai, India</div>
+      </div>
+      <div class="job-r">
+        <h3>Product Engineer — Backend &amp; Systems</h3>
+        <ul>
+          <li><b>Lead backend architecture</b> for a platform serving 30K+ users, 21K MAU, 1.2K DAU.</li>
+          <li>Design and own <b>REST APIs</b> across three client platforms plus internal AI tooling.</li>
+          <li>Architected the loyalty wallet, attribution system, moderation pipelines, and comparison system.</li>
+          <li>Led infrastructure migration; integrated <b>Firebase, Meta Conversion API, MSG91, AppTrove, Clarity</b>.</li>
+          <li>Scope features, assign and review peer tasks, contribute product insight as a business owner.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="job">
+      <div class="job-l">
+        <div class="when">JAN 2024 — JUL 2024</div>
+        <div class="co">Samisan Tech (Mira3D)</div>
+        <div class="loc">Mumbai, India</div>
+      </div>
+      <div class="job-r">
+        <h3>Software Development Engineer</h3>
+        <ul>
+          <li>Built industrial <b>calibration software</b> (C#/.NET) for precision-testing equipment.</li>
+          <li>Developed a <b>Node.js backend</b>; integrated Basler camera hardware with ML-assisted capture.</li>
+          <li>Automated a manual reporting workflow, <b>reducing manual effort by ~80%</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="stack"><div class="wrap">
+  <div class="shead reveal"><span class="no">03</span><h2>Stack</h2><span class="meta">COMPONENTS</span></div>
+  <div class="stack reveal">
+    <div class="stk"><h4>BACKEND</h4><ul><li>Node.js</li><li>Express</li><li>REST API design</li><li>System Design HLD/LLD</li></ul></div>
+    <div class="stk"><h4>DATA &amp; INFRA</h4><ul><li>MongoDB · Atlas</li><li>SQL</li><li>AWS S3 · CloudFront</li><li>Nginx · Linux · VPS</li></ul></div>
+    <div class="stk"><h4>SYSTEMS</h4><ul><li>Affiliate / attribution</li><li>Event pipelines</li><li>Caching strategies</li><li>Performance tuning</li></ul></div>
+    <div class="stk"><h4>INTEGRATIONS</h4><ul><li>Firebase (FCM)</li><li>Meta Conversion API</li><li>MSG91 · AppTrove</li><li>Microsoft Clarity</li></ul></div>
+  </div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="shead reveal"><span class="no">04</span><h2>Contact</h2><span class="meta">SIGNAL</span></div>
+  <div class="contact reveal">
+    <h3>Let's build something that <span>scales</span>.</h3>
+    <p>Open to backend and product engineering roles. Happy to talk system design, architecture, or anything between.</p>
+    <div class="clinks">
+      <a href="mailto:konartech@gmail.com">konartech@gmail.com</a>
+      <a href="https://www.linkedin.com/in/maheshk86000" target="_blank" rel="noopener">LINKEDIN ↗</a>
+      <a href="tel:+919137826216">+91 91378 26216</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="foot"><span>© 2026 MAHESH KONAR · DWG MK-2026</span><span>DESIGNED &amp; BUILT FROM SCRATCH — MUMBAI, IN</span></div>
+</div></footer>
+
+<script>
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+    e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay=(Math.min(i,5)*60)+'ms';io.observe(el);});
+</script>
+</body>
+</html>
